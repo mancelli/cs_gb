@@ -70,5 +70,5 @@
 //     start = start + 1;
 // }
 
-Console.WriteLine("");
-Console.WriteLine("Вот все четные числа до введенного числа от единицы");
+// Console.WriteLine("");
+// Console.WriteLine("Вот все четные числа до введенного числа от единицы");
