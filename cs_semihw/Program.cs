@@ -57,18 +57,18 @@
 // Console.WriteLine("Введите число");
 // int N = Convert.ToInt32(Console.ReadLine());
 // int start = 1;
-// int even = start%2;
+
 
 // while (start <= N)
 // {
+//     int even = start%2;
 //     if (even == 0)
 //     {
 //         Console.Write(start);
 //         Console.Write(" ");
 //     }
 //     start = start + 1;
-//     even = start%2;
 // }
 
-// Console.WriteLine("");
-// Console.WriteLine("Вот все четные числа до введенного числа от единицы");
+Console.WriteLine("");
+Console.WriteLine("Вот все четные числа до введенного числа от единицы");
