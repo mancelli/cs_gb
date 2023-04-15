@@ -100,14 +100,17 @@ else if (sumdealer>=17 && sumdealer<21)
     }
     if (sumuser > sumdealer && sumuser <22)
     {
+        Console.WriteLine();
         Console.WriteLine("Ура! Вы победили!");
     }
     else if (sumuser<sumdealer && sumdealer<22)
     {
-            Console.WriteLine("Победа за казино! Повезет в следующий раз!");
+        Console.WriteLine();
+        Console.WriteLine("Победа за казино! Повезет в следующий раз!");
     }
     else if (sumuser == sumdealer || (sumuser>21 && sumdealer>21))
     {
-            Console.WriteLine("Вы при своих.");
+        Console.WriteLine();
+        Console.WriteLine("Вы при своих.");
     }
 }
