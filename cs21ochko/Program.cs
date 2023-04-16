@@ -63,7 +63,6 @@ if (Perebor(sumuser) == true)
     Console.WriteLine("Но у дилера тоже перебор, так что не важно :)");
     Console.WriteLine();
     }
-
 }
 else
 {
@@ -102,6 +101,12 @@ else
             {
                 Console.WriteLine();
                 Console.WriteLine("Перебор! Увы, вы проиграли!");
+                break;
+            }
+            if (i>4)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Вы не можете взять больше 5 карт!");
                 break;
             }
             Console.WriteLine();
