@@ -1,113 +1,202 @@
-﻿
-int[] cards = {1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,11,11,11,11,12,12,12,12,13,13,13,13};
+﻿char[] suits = {'♠', '♣', '♦','♥'};
+string[] nominnals = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+List<Card> pack = new List<Card>(52);
 
-int[] dealer = new int[5];
+FullDeck();
+ShuffleDeck();
 
-for (int i = 0; i<5; i++)
+Player dealer = new Player("Dealer");
+Player player = new Player("You");
+
+Game();
+void Game()
 {
-    int index = new Random().Next(0,52);
-    dealer[i] = cards[index];
-    cards[index] = 0;
-    while (dealer[i] == 0)
+    player.hand.Add(pack[0]);
+    pack.RemoveAt(0);
+    dealer.hand.Add(pack[0]);
+    pack.RemoveAt(0);
+    player.hand.Add(pack[0]);
+    pack.RemoveAt(0);
+    dealer.hand.Add(pack[0]);
+    pack.RemoveAt(0);
+    dealer.CountPoins();
+    player.CountPoins();
+    ShowCards();
+    while (player.points < 21)
     {
-        dealer[i] = cards[index+1];
-        if (index>51)
+        Console.WriteLine("Карту? (y/n)");
+        string answer = Console.ReadLine();
+        if (answer.ToLower() == "y")
         {
-            index = 0;
+            player.hand.Add(pack[0]);
+            pack.RemoveAt(0);
+            player.CountPoins();
+            ShowCards();
         }
-        cards[index+1] = 0;
-    }     
-}
-int[] user = new int[5];
-
-for (int i = 0; i<5; i++)
-{
-    int index = new Random().Next(0,52);
-    user[i] = cards[index];
-    cards[index] = 0;
-    while (user[i] == 0)
-    {
-        user[i] = cards[index+1];
-        if (index>51)
+        else if (answer.ToLower() == "n")
         {
-            index = 0;
-        }
-        cards[index+1] = 0;
-    }    
-}
-
-// for (int i = 0; user[i] == dealer[i]; i++)
-// {
-//     int index = new Random().Next(0,52);
-//     user[i] = cards[index]; 
-
-// }
-
-
-Console.Clear();
-Console.WriteLine("Добро пожаловать за стол! Нажмите Enter чтобы начать партию в Блэк-Джек");
-Console.ReadLine();
-Console.WriteLine("Карты дилера ");
-Console.Write(dealer[0]);
-Console.Write(" " + dealer[1]);
-Console.ReadLine();
-Console.WriteLine();
-Console.WriteLine("Твои карты ");
-Console.Write(user[0]);
-Console.Write(" " + user[1]);
-Console.ReadLine();
-Console.WriteLine("Ход дилера!");
-int sumdealer = dealer[0]+dealer[1];
-int sumuser = user[0]+user[1];
-Console.WriteLine("Карты дилера ");
-Console.Write(dealer[0]);
-Console.Write(" " + dealer[1]);
-int count = 2; 
-while (sumdealer < 17 && count < 5)
-{
-    Console.Write(" " + dealer[count]);
-    sumdealer = sumdealer + dealer[count];
-    count++;
-}
-Console.WriteLine();
-if (sumdealer>21)
-{
-    Console.WriteLine("Перебор! Вы выиграли!");
-    Console.WriteLine();
-}
-else if (sumdealer>=17 && sumdealer<21)
-{
-    Console.WriteLine("Достаточно! Ваш ход, мсье! (Y чтобы взять еще)");
-    string choice = Convert.ToString(Console.ReadLine());
-    int i = 2;
-    Console.WriteLine();
-    Console.WriteLine("Твои карты ");
-    Console.Write(user[0]);
-    Console.Write(" " + user[1]);
-    while (choice == "Y" && sumuser<21 && i<5)
-    {
-        Console.Write(" " + user[i]);
-        sumuser = sumuser + user[i];
-        i++;
-        if (sumuser>21)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Перебор! Увы, вы проиграли!");
+            player.CountPoins();
+            ShowCards();
             break;
         }
-        Console.WriteLine();
-        choice = Console.ReadLine();
     }
-    if (sumuser > sumdealer && sumuser <22)
+    if (dealer.points < 16)
     {
-        Console.WriteLine("Ура! Вы победили!");
+        dealer.hand.Add(pack[0]);
+        pack.RemoveAt(0);
+        dealer.CountPoins();
+        ShowCards();
     }
-    else if (sumuser<sumdealer && sumdealer<22)
+    GameResult();
+}
+
+void GameResult()
+{
+    if (player.points > dealer.points && player.points <= 21 || dealer.points > 21)
     {
-            Console.WriteLine("Победа за казино! Повезет в следующий раз!");
+        Console.WriteLine("Вы победили!");
     }
-    else if (sumuser == sumdealer || (sumuser>21 && sumdealer>21))
+    else if (player.points == dealer.points && player.points <= 21)
+        Console.WriteLine("Ничья");
+    else
+        Console.WriteLine("Победа диллера");
+}
+
+void ShowCards()
+{
+    Console.Clear();
+    dealer.PrintHand();
+    dealer.CountPoins();
+    Console.WriteLine("\n");
+    player.PrintHand();
+    Console.WriteLine("\n");
+}
+void FullDeck()
+{
+    int indexCard = 0;
+    for (int i=0; i<nominnals.Length; i++)
     {
-            Console.WriteLine("Вы при своих.");
+        for (int j=0; j < suits.Length; j++)
+        {
+            pack.Add(new Card(nominnals[i], suits[j]));
+            indexCard++;
+        }
+    }
+} 
+void ShuffleDeck()
+{
+    Random shuffle = new Random();
+    int n = pack.Count;
+    while (n > 1)
+    {
+        n--;
+        int k = shuffle.Next(n+1);
+        Card randomCard = pack[k];
+        pack[k] = pack[n];
+        pack[n] = randomCard;
+    }
+}
+
+void PrintDeck()
+{
+    for (int i = 0; i < pack.Count; i++)
+    {
+        pack[i].Print();
+    }
+
+}
+
+class Card
+{
+    public string nominal;
+    public char suit;
+
+    public Card(string nominal, char suit)
+    {
+        this.nominal = nominal;
+        this.suit = suit;
+    }
+    public void Print()
+    {
+        Console.Write($"{nominal}{suit} ");
+    }
+
+}
+
+class Player
+{
+    public string name;
+    public List<Card> hand = new List<Card>(5);
+    public int points;
+
+    public Player(string name)
+    {
+        this.name = name;
+    }
+    public void TakeCard(string name)
+    {
+        
+    }
+
+    public void PrintHand()
+    {
+        Console.WriteLine(name);
+        for (int i = 0; i < hand.Count; i++)
+        {
+            hand[i].Print();
+        }
+    }
+    public void CountPoins()
+    {
+        points = 0;
+        for (int i = 0; i < hand.Count; i++)
+        {
+            switch(hand[i].nominal)
+            {
+                case "1":
+                    points += 1;
+                    break;
+                case "2":
+                    points += 2;
+                    break;
+                case "3":
+                    points += 3;
+                    break;
+                case "4":
+                    points += 4;
+                    break;
+                case "5":
+                    points += 5;
+                    break;
+                case "6":
+                    points += 6;
+                    break;
+                case "7":
+                    points += 7;
+                    break;
+                case "8":
+                    points += 8;
+                    break;
+                case "9":
+                    points += 9;
+                    break;
+                case "10":
+                    points += 10;
+                    break;
+                case "J":
+                    points += 10;
+                    break;
+                case "Q":
+                    points += 10;
+                    break;
+                case "K":
+                    points += 10;
+                    break;
+                case "A":
+                    points += 11;
+                    break;
+            }
+        }
+        
     }
 }
