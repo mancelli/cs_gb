@@ -3,7 +3,7 @@
 Console.WriteLine("Введите пятизначное число");
 int pal = Convert.ToInt32(Console.ReadLine());
 int temp = pal;
-if (pal>9999)
+if (pal>9999&&pal<100000)
 {
     int num1 = pal/10000;
     int num2 = pal%10;
