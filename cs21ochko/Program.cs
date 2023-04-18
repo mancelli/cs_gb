@@ -1,14 +1,13 @@
 ﻿char[] suits = {'♠', '♣', '♦','♥'};
 string[] nominnals = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
 List<Card> pack = new List<Card>(52);
-
-FullDeck();
-ShuffleDeck();
-
 Player dealer = new Player("Dealer");
 Player player = new Player("You");
 
+FullDeck();
+ShuffleDeck();
 Game();
+
 void Game()
 {
     player.hand.Add(pack[0]);
@@ -53,9 +52,7 @@ void Game()
 void GameResult()
 {
     if (player.points > dealer.points && player.points <= 21 || dealer.points > 21)
-    {
         Console.WriteLine("Вы победили!");
-    }
     else if (player.points == dealer.points && player.points <= 21)
         Console.WriteLine("Ничья");
     else
@@ -71,6 +68,7 @@ void ShowCards()
     player.PrintHand();
     Console.WriteLine("\n");
 }
+
 void FullDeck()
 {
     int indexCard = 0;
@@ -83,6 +81,7 @@ void FullDeck()
         }
     }
 } 
+
 void ShuffleDeck()
 {
     Random shuffle = new Random();
@@ -97,20 +96,10 @@ void ShuffleDeck()
     }
 }
 
-void PrintDeck()
-{
-    for (int i = 0; i < pack.Count; i++)
-    {
-        pack[i].Print();
-    }
-
-}
-
 class Card
 {
     public string nominal;
     public char suit;
-
     public Card(string nominal, char suit)
     {
         this.nominal = nominal;
@@ -120,7 +109,6 @@ class Card
     {
         Console.Write($"{nominal}{suit} ");
     }
-
 }
 
 class Player
@@ -128,16 +116,10 @@ class Player
     public string name;
     public List<Card> hand = new List<Card>(5);
     public int points;
-
     public Player(string name)
     {
         this.name = name;
     }
-    public void TakeCard(string name)
-    {
-        
-    }
-
     public void PrintHand()
     {
         Console.WriteLine(name);
