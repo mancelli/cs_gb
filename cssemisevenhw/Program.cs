@@ -55,7 +55,7 @@
 // else {System.Console.WriteLine("Элемент с заданными параметрами не существует");}//если некорректно выводим ошибку.
 
 
-int[,] matrix = new int[new Random().Next(2,10),new Random().Next(2,10)];
+int[,] matrix = new int[new Random().Next(2,10),new Random().Next(2,10)]; //Задача 52. Задайте двумерный массив из целых чисел. Найдите среднее арифметическое элементов в каждом столбце.
 double ma = 0;
 
 for (int i = 0; i < matrix.GetLength(0); i++)//заполняем и выводим массив.
